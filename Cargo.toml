@@ -1,0 +1,19 @@
+[package]
+name = "summer_chatbot"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+kalosm = { git = "https://github.com/floneum/floneum", version = "0.4.0", features = ["llama", "language"] }
+rocket = {  version = "0.5.1", features = ["json"] }
+rocket_cors = "0.6.0"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1"
+
+
+[features]
+part1 = []
+part2 = []
+part3 = []

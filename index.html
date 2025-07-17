@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <title>My Chatbot</title>
+    <style>
+      #main { 
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px;
+        background-color: #AAAAFF;
+        padding-top: 50px;
+        text-align: center;
+      }
+      #chat-panel {
+        display: none;
+      }
+      #input-panel {
+        display: none;
+        clear: both;
+        width: 100%;
+        padding-top: 10px;
+        text-align: center;
+      }      
+      input[type='text'] {
+        width: 60%;
+      }
+      input, button {
+        height: 60px;
+      }
+      .human { 
+        margin-top:10px;
+        width: 600px;
+        float:left;
+        clear: both;
+        border-radius: 10px;
+        background-color: #AAFFAA;
+        padding: 10px;
+        text-align: left;
+      }
+      .bot { 
+        margin-top:10px;
+        width: 600px;
+        float:right;
+        clear: both;
+        border-radius: 10px;
+        background-color: #FFAAAA;
+        padding: 10px;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <div id="main">
+    <h1>Welcome to my chat bot</h1>
+    <div id="login-panel">
+      <form id="login-form">
+      <input type="text" id="username" placeholder="Enter your username!">
+      <input type="submit" value="Login">
+      </form>
+    </div>
+    <div id="chat-panel">
+    </div>
+    <div id="input-panel">
+      <form id="input-form">
+        <input type="text" id="message">
+        <input type="submit" value="Send">
+      </form>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+  let username = "";
+  document.getElementById('login-form').onsubmit = function () {
+    username = document.getElementById('username').value;
+    document.getElementById('login-panel').style.display = 'none';
+    document.getElementById('chat-panel').style.display = 'block';
+    document.getElementById('input-panel').style.display = 'block';
+    return false;
+  }
+  
+  document.getElementById('input-form').onsubmit = function () {
+    try {
+      const message = document.getElementById('message').value;
+      const payload = {
+        username: username,
+        message: message
+      };
+      document.getElementById('chat-panel').innerHTML += '<div class="human">' + message + '</div>';
+      
+      const xhttp = new XMLHttpRequest();
+      xhttp.open('POST', 'http://localhost:3000/chat', false);
+      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhttp.onload = function () {
+        const response = this.responseText;
+        const message = JSON.parse(response).message;
+        document.getElementById('chat-panel').innerHTML += '<div class="bot">' + message + '</div>';
+        document.getElementById('message').value = '';
+      };
+      xhttp.send(JSON.stringify(payload));
+      return false;
+    } catch (e) { 
+      alert('Error!');
+      console.log(e);
+    }
+  }
+  </script>
+</html>
