@@ -11,8 +11,8 @@ pub fn initialize_state() -> State {
 
 pub async fn chat_with_user(
     model: &Llama,
-    username: String,
     message: String,
+    username: String,
     state: &mut State
 ) -> String {
     return String::from("Hello, I am not a bot (yet)!");
