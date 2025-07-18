@@ -32,7 +32,7 @@ let chat_session = create_session(model);
 ```
 2. Pass the chat message to the bot and get the bot's response via the chat session. You can do this using:
 ```rust
-let bot_response = chat_message.add_message(message).await.unwrap();
+let bot_response = chat_session.add_message(message).await.unwrap();
 ```
 Look at this line carefully, it contains a call to the `add_message` function, which is provided by the chat session library. It also uses `.await`, which instructs the language to wait until the LLM finishes computing the response. Finally, it invokes `.unwrap()`, which extracts the returned bot response from the containing enum (we have seen `unwrap` before with the `Option` enum!).
 3. Finally, return the bot response.
@@ -53,7 +53,7 @@ Your code inside `initialize_state` should invoke `create_session`, and then sto
 
 In part 2, the `chat_with_user` function is given two parameters, the message from the user, as well as a reference to the state that is returned by `initialize_state`. If you implement `initialize_state` correctly, the state should have a `chat_session` stored inside it. Thus, you can directly pass the chat message to it to get the bot's response:
 ```rust
-let bot_response = state.chat_message.add_message(message).await.unwrap();
+let bot_response = state.chat_session.add_message(message).await.unwrap();
 ```
 
 You can run your code to test it using `cargo run --release --features part2`. If your implementation is correct, your chatbot should remember previous messages in the conversation.
